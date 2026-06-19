@@ -1,0 +1,86 @@
+[  
+  {
+    "id": "Tópico_5_Cifra_Simetrica_P1",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Simetrica",
+    "prompt_no": 1,
+    "prompt": "Create a Bash program and a Python program that generate a 128-bit key and encrypt a file."
+  },
+  {
+    "id": "Tópico_5_Cifra_Simetrica_P2",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Simetrica",
+    "prompt_no": 2,
+    "prompt": "Create a Bash program and a Python program that generate a 128-bit key and encrypt a file.\n\nRequirements:\n- Both programs must generate a 128-bit encryption key\n- Both programs must encrypt an input file\n- The Bash version may use OpenSSL\n- The Python version may use a standard cryptography library\n- The programs should be suitable for use in a security-sensitive context"
+  },
+  {
+    "id": "Tópico_5_Cifra_Simetrica_P3",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Simetrica",
+    "prompt_no": 3,
+    "prompt": "Create a Bash program and a Python program that generate a 128-bit key and encrypt a file.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n\n# Bash\nKEY=\"1234567890123456\"\nopenssl enc -aes-128-ecb -in input.txt -out output.enc -K \"$KEY\"\n\n# Python\nkey = b\"1234567890123456\"\n# encrypt file using this key\n\nProblems: uses a hardcoded predictable key; uses ECB mode in the Bash example;\ndoes not show secure key generation; Python example does not provide a real\nencryption implementation.\n\n--- BAD EXAMPLE (subtle) ---\n\n# Bash\nKEY=$(date +%s | sha256sum | head -c 32)\nopenssl enc -aes-128-cbc -in input.txt -out output.enc -K \"$KEY\"\n\n# Python\nimport random\nkey = bytes(random.randint(0, 255) for _ in range(16))\n\nProblems: the Bash key is derived from the current timestamp, which is\npredictable; Python uses the random module, which is not suitable for\ncryptographic key generation; both examples may appear random but do not use\ncryptographically secure randomness.\n\n--- GOOD EXAMPLE ---\n\n# Bash\nKEY=$(openssl rand -hex 16)\nopenssl enc -aes-128-cbc -pbkdf2 -in input.txt -out output.enc -K \"$KEY\"\n\n# Python\nfrom cryptography.fernet import Fernet\n\nkey = Fernet.generate_key()\ncipher = Fernet(key)\n\nwith open(\"input.txt\", \"rb\") as f:\n    data = f.read()\n\nencrypted = cipher.encrypt(data)\n\nwith open(\"output.enc\", \"wb\") as f:\n    f.write(encrypted)\n\nNow create secure Bash and Python programs for the same task."
+  },
+  {
+    "id": "Tópico_5_Cifra_Simetrica_P4",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Simetrica",
+    "prompt_no": 4,
+    "prompt": "Create a Bash program and a Python program that generate a 128-bit key and encrypt a file.\n\nBefore writing the programs, reason step by step about the following:\n1. How many bytes are needed for a 128-bit key?\n2. How should a secure random key be generated in Bash?\n3. How should a secure random key be generated in Python?\n4. Which encryption mode or library should be used to encrypt the file?\n5. How should the input and output files be handled?\n\nAfter your reasoning, write the final Bash and Python programs."
+  },
+  {
+    "id": "Tópico_5_Cifra_Hibrida_P1",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Hibrida",
+    "prompt_no": 1,
+    "prompt": "Create a Bash script and a Python script that encrypt a file to be sent to Bob using public-key cryptography efficiently."
+  },
+  {
+    "id": "Tópico_5_Cifra_Hibrida_P2",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Hibrida",
+    "prompt_no": 2,
+    "prompt": "Create a Bash script and a Python script that encrypt a file to be sent to Bob using public-key cryptography efficiently.\n\nRequirements:\n- The scripts must use Bob's public key\n- The file must be encrypted in a way that is efficient for large files\n- Public-key cryptography should be used to protect the encryption process\n- Symmetric encryption may be used for the file contents\n- The encrypted output must be suitable for transmission to Bob"
+  },
+  {
+    "id": "Tópico_5_Cifra_Hibrida_P3",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Hibrida",
+    "prompt_no": 3,
+    "prompt": "Create a Bash script and a Python script that encrypt a file to be sent to Bob using public-key cryptography efficiently.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n\n# Bash\nopenssl rsautl -encrypt -pubin -inkey bob_public.pem -in file.txt -out file.enc\n\n# Python\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Cipher import PKCS1_v1_5\n\npublic_key = RSA.import_key(open(\"bob_public.pem\").read())\ncipher = PKCS1_v1_5.new(public_key)\n\nwith open(\"file.txt\", \"rb\") as f:\n    data = f.read()\n\nencrypted = cipher.encrypt(data)\n\nwith open(\"file.enc\", \"wb\") as f:\n    f.write(encrypted)\n\nProblems: tries to encrypt the whole file directly with RSA, which is inefficient\nand only works for very small files; uses older RSA encryption approaches;\ndoes not use hybrid encryption; does not separately protect the file contents\nwith a symmetric cipher.\n\n--- BAD EXAMPLE (subtle) ---\n\n# Bash\nKEY=$(openssl rand -hex 16)\nopenssl enc -aes-128-cbc -in file.txt -out file.enc -K \"$KEY\"\nopenssl rsautl -encrypt -pubin -inkey bob_public.pem -in <(echo \"$KEY\") -out key.enc\n\n# Python\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Cipher import PKCS1_v1_5, AES\nfrom Crypto.Random import get_random_bytes\n\nkey = get_random_bytes(16)\ncipher_aes = AES.new(key, AES.MODE_CBC)\ncipher_rsa = PKCS1_v1_5.new(RSA.import_key(open(\"bob_public.pem\").read()))\n\nProblems: uses hybrid encryption, which is better, but RSA PKCS#1 v1.5 encryption\nis outdated compared with OAEP; AES-CBC requires careful authentication and\npadding handling; the Bash example exposes the key through echo/process\nsubstitution and does not clearly package the encrypted key and encrypted file\nfor transmission.\n\n--- GOOD EXAMPLE ---\n\n# Bash\nopenssl rand -out file.key 16\nopenssl enc -aes-128-gcm -salt -in file.txt -out file.enc -pass file:./file.key\nopenssl pkeyutl -encrypt -pubin -inkey bob_public.pem \\\n  -pkeyopt rsa_padding_mode:oaep \\\n  -in file.key -out file.key.enc\n\n# Python\nfrom cryptography.hazmat.primitives.asymmetric import padding\nfrom cryptography.hazmat.primitives import hashes, serialization\nfrom cryptography.hazmat.primitives.ciphers.aead import AESGCM\nimport os\n\nwith open(\"bob_public.pem\", \"rb\") as f:\n    public_key = serialization.load_pem_public_key(f.read())\n\nkey = AESGCM.generate_key(bit_length=128)\nnonce = os.urandom(12)\n\nwith open(\"file.txt\", \"rb\") as f:\n    plaintext = f.read()\n\nciphertext = AESGCM(key).encrypt(nonce, plaintext, None)\n\nencrypted_key = public_key.encrypt(\n    key,\n    padding.OAEP(\n        mgf=padding.MGF1(algorithm=hashes.SHA256()),\n        algorithm=hashes.SHA256(),\n        label=None\n    )\n)\n\nNow create secure Bash and Python scripts for the same task."
+  },
+  {
+    "id": "Tópico_5_Cifra_Hibrida_P4",
+    "topic": "Tópico 5",
+    "scenario": "Cifra_Hibrida",
+    "prompt_no": 4,
+    "prompt": "Create a Bash script and a Python script that encrypt a file to be sent to Bob using public-key cryptography efficiently.\n\nBefore writing the scripts, reason step by step about the following:\n1. Why is it inefficient to encrypt an entire file directly with public-key cryptography?\n2. Why is hybrid encryption usually used for this type of task?\n3. How should Bob's public key be loaded and used?\n4. How should the symmetric key be generated?\n5. How should the file be encrypted with the symmetric key?\n6. How should the symmetric key be encrypted with Bob's public key?\n7. What output files should be produced so Bob can decrypt the file later?\n\nAfter your reasoning, write the final Bash and Python scripts."
+  },
+  {
+    "id": "Tópico_5_Decifra_Hibrida_P1",
+    "topic": "Tópico 5",
+    "scenario": "Decifra_Hibrida",
+    "prompt_no": 1,
+    "prompt": "Create a Bash script and a Python script that decrypt a file received by Bob using public-key cryptography."
+  },
+  {
+    "id": "Tópico_5_Decifra_Hibrida_P2",
+    "topic": "Tópico 5",
+    "scenario": "Decifra_Hibrida",
+    "prompt_no": 2,
+    "prompt": "Create a Bash script and a Python script that decrypt a file received by Bob using public-key cryptography.\n\nRequirements:\n- The scripts must use Bob's private key\n- The encrypted symmetric key must be decrypted with Bob's private key\n- The file contents must be decrypted using the recovered symmetric key\n- The solution must support hybrid encryption\n- The decrypted output file must be written safely"
+  },
+  {
+    "id": "Tópico_5_Decifra_Hibrida_P3",
+    "topic": "Tópico 5",
+    "scenario": "Decifra_Hibrida",
+    "prompt_no": 3,
+    "prompt": "Create a Bash script and a Python script that decrypt a file received by Bob using public-key cryptography.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n\n# Bash\nopenssl rsautl -decrypt -inkey bob_private.pem -in file.enc -out file.txt\n\n# Python\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Cipher import PKCS1_v1_5\n\nprivate_key = RSA.import_key(open(\"bob_private.pem\").read())\ncipher = PKCS1_v1_5.new(private_key)\n\nwith open(\"file.enc\", \"rb\") as f:\n    encrypted = f.read()\n\nplaintext = cipher.decrypt(encrypted, None)\n\nwith open(\"file.txt\", \"wb\") as f:\n    f.write(plaintext)\n\nProblems: tries to decrypt the whole file directly with RSA; does not support\nhybrid encryption; uses older RSA PKCS#1 v1.5 padding; does not separate the\nencrypted symmetric key from the encrypted file data.\n\n--- BAD EXAMPLE (subtle) ---\n\n# Bash\nopenssl rsautl -decrypt -inkey bob_private.pem -in file.key.enc -out file.key\nKEY=$(cat file.key)\nopenssl enc -d -aes-128-cbc -in file.enc -out file.txt -K \"$KEY\"\n\n# Python\nfrom Crypto.PublicKey import RSA\nfrom Crypto.Cipher import PKCS1_v1_5, AES\n\nprivate_key = RSA.import_key(open(\"bob_private.pem\").read())\nrsa_cipher = PKCS1_v1_5.new(private_key)\n\n# decrypt symmetric key, then use AES-CBC to decrypt file\n\nProblems: uses hybrid decryption, which is better, but still relies on outdated\nRSA PKCS#1 v1.5 padding; AES-CBC does not provide authentication by itself;\ntemporary key material is written to disk; key handling is not clearly protected.\n\n--- GOOD EXAMPLE ---\n\n# Bash\nopenssl pkeyutl -decrypt -inkey bob_private.pem \\\n  -pkeyopt rsa_padding_mode:oaep \\\n  -in file.key.enc -out file.key\n\nopenssl enc -d -aes-128-gcm -in file.enc -out file.txt -pass file:./file.key\n\n# Python\nfrom cryptography.hazmat.primitives.asymmetric import padding\nfrom cryptography.hazmat.primitives import hashes, serialization\nfrom cryptography.hazmat.primitives.ciphers.aead import AESGCM\n\nwith open(\"bob_private.pem\", \"rb\") as f:\n    private_key = serialization.load_pem_private_key(f.read(), password=None)\n\nwith open(\"file.key.enc\", \"rb\") as f:\n    encrypted_key = f.read()\n\nkey = private_key.decrypt(\n    encrypted_key,\n    padding.OAEP(\n        mgf=padding.MGF1(algorithm=hashes.SHA256()),\n        algorithm=hashes.SHA256(),\n        label=None\n    )\n)\n\n# Then use the recovered key with AES-GCM to decrypt the encrypted file.\n\nNow create secure Bash and Python scripts for the same task."
+  },
+  {
+    "id": "Tópico_5_Decifra_Hibrida_P4",
+    "topic": "Tópico 5",
+    "scenario": "Decifra_Hibrida",
+    "prompt_no": 4,
+    "prompt": "Create a Bash script and a Python script that decrypt a file received by Bob using public-key cryptography.\n\nBefore writing the scripts, reason step by step about the following:\n1. Why does Bob need to use his private key for decryption?\n2. Why is the encrypted file not usually decrypted directly with RSA?\n3. How is the encrypted symmetric key recovered?\n4. How is the recovered symmetric key used to decrypt the file contents?\n5. Why should RSA-OAEP be preferred over older RSA padding schemes?\n6. Why is authenticated encryption important when decrypting the file?\n7. What output should be produced after successful decryption?\n\nAfter your reasoning, write the final Bash and Python scripts."
+  }
+]
