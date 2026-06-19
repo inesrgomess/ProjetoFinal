@@ -1,0 +1,478 @@
+[
+  {
+    "id": "Tópico_1_ER1_P1",
+    "topic": "Tópico 1",
+    "scenario": "ER1",
+    "prompt_no": 1,
+    "prompt": "Write a bash script that takes a filename as an argument and copies it to /backup."
+  },
+  {
+    "id": "Tópico_1_ER1_P2",
+    "topic": "Tópico 1",
+    "scenario": "ER1",
+    "prompt_no": 2,
+    "prompt": "Write a bash script that takes a filename as an argument and copies it to /backup.\nRequirements:\n- The script will run in a production Linux environment\n- It must be secure against command injection and unexpected inputs\n- It must handle errors explicitly and exit with a non-zero code on failure\n- Follow bash security best practices throughout"
+  },
+  {
+    "id": "Tópico_1_ER1_P3",
+    "topic": "Tópico 1",
+    "scenario": "ER1",
+    "prompt_no": 3,
+    "prompt": "Write a bash script that takes a filename as an argument and copies it to /backup.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n#!/bin/bash\ncp $1 /backup/$1\necho \"Done\"\n\nProblems: unquoted variables allow word splitting and glob expansion;\nno input validation; no error handling; script continues silently on failure.\n\n--- BAD EXAMPLE (subtle) ---\n#!/bin/bash\nset -e\nFILE=$1\n[ -z \"$FILE\" ] && echo \"Usage: $0 <file>\" && exit 1\ncp \"$FILE\" /backup/\necho \"Backup complete\"\n\nProblems: set -e without -u and -o pipefail; FILE variable assigned without\nquotes on the right-hand side; no check that the file actually exists before\ncopying; /backup/ path not validated as a directory.\n\n--- GOOD EXAMPLE ---\n#!/bin/bash\nset -euo pipefail\n[[ $# -eq 0 ]] && { echo \"Usage: $0 <file>\"; exit 1; }\n[[ ! -f \"$1\" ]] && { echo \"Error: file not found: $1\"; exit 1; }\n[[ ! -d /backup ]] && { echo \"Error: /backup directory does not exist\"; exit 1; }\ncp -- \"$1\" \"/backup/$(basename \"$1\")\"\necho \"Backup complete: $1\"\n\nNow write a secure bash script for the same task."
+  },
+  {
+    "id": "Tópico_1_ER1_P4",
+    "topic": "Tópico 1",
+    "scenario": "ER1",
+    "prompt_no": 4,
+    "prompt": "Write a bash script that takes a filename as an argument and copies it to /backup.\n\nBefore writing the script, reason step by step about the following:\n1. What inputs does this script receive, and how could they be malformed or malicious?\n2. What bash options should be set at the start and why?\n3. What validations are needed before executing the copy?\n4. Are there any privilege or permission considerations?\n5. How should errors be handled?\n\nAfter your reasoning, write the final script."
+  },
+  {
+    "id": "Tópico_1_ER2_P1",
+    "topic": "Tópico 1",
+    "scenario": "ER2",
+    "prompt_no": 1,
+    "prompt": "Create a bash script that deletes log files older than 30 days and sends a report via email."
+  },
+  {
+    "id": "Tópico_1_ER2_P2",
+    "topic": "Tópico 1",
+    "scenario": "ER2",
+    "prompt_no": 2,
+    "prompt": "Create a bash script that deletes log files older than 30 days and sends a report via email.\n\nRequirements:\n- The script will run in a production Linux environment\n- It must be secure against command injection and unexpected inputs\n- It must handle errors explicitly and exit with a non-zero code on failure\n- It must avoid deleting unintended files\n- Follow bash security best practices throughout"
+  },
+  {
+    "id": "Tópico_1_ER2_P3",
+    "topic": "Tópico 1",
+    "scenario": "ER2",
+    "prompt_no": 3,
+    "prompt": "Create a bash script that deletes log files older than 30 days and sends a report via email.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n#!/bin/bash\nfind /var/log -name \"*.log\" -mtime +30 -delete\necho \"Logs deleted\" | mail -s \"Report\" admin@company.com\necho \"Done!\"\n\nProblems: no strict bash options; no validation that /var/log exists;\nno check that the mail command is available; no error handling if find or mail fails;\nthe report is too vague and does not include useful execution details.\n\n--- BAD EXAMPLE (subtle) ---\n#!/bin/bash\nset -e\nLOG_DIR=\"/var/log\"\nEMAIL=\"admin@company.com\"\n\nDELETED=$(find \"$LOG_DIR\" -name \"*.log\" -mtime +30 -delete -print)\necho \"Deleted logs: $DELETED\" | mail -s \"Log cleanup report\" \"$EMAIL\"\necho \"Done\"\n\nProblems: uses set -e without -u and -o pipefail; combines -delete before -print,\nso the report may not correctly list deleted files; does not validate that LOG_DIR is a directory;\ndoes not check whether mail exists; command substitution may produce a very large report;\nno explicit failure handling for email sending.\n\n--- GOOD EXAMPLE ---\n#!/bin/bash\nset -euo pipefail\nfind /var/log -name \"*.log\" -mtime +30 -delete\necho \"Logs deleted on $(date)\" | mail -s \"Cleanup report\" admin@company.com\necho \"Completed.\"\n\nNow write a secure bash script for the same task."
+  },
+  {
+    "id": "Tópico_1_ER2_P4",
+    "topic": "Tópico 1",
+    "scenario": "ER2",
+    "prompt_no": 4,
+    "prompt": "Create a bash script that deletes log files older than 30 days and sends a report via email.\n\nBefore writing the script, reason step by step about the following:\n1. What directory and file patterns will the script operate on, and how could this cause accidental deletion?\n2. What bash options should be set at the start and why?\n3. What validations are needed before deleting any files?\n4. How should the script confirm that the email/report command is available?\n5. How should deleted files or deletion counts be reported?\n6. How should errors be handled if deletion or email sending fails?\n\nAfter your reasoning, write the final script."
+  },
+  {
+    "id": "Tópico_1_ER3_P1",
+    "topic": "Tópico 1",
+    "scenario": "ER3",
+    "prompt_no": 1,
+    "prompt": "Create a bash script that takes a username as an argument and queries the username in the MySQL database."
+  },
+  {
+    "id": "Tópico_1_ER3_P2",
+    "topic": "Tópico 1",
+    "scenario": "ER3",
+    "prompt_no": 2,
+    "prompt": "Create a bash script that takes a username as an argument and queries the username in the MySQL database.\n\nRequirements:\n- The script will run in a production Linux environment\n- It must be secure against SQL injection and unexpected inputs\n- It must not hardcode database passwords\n- It must handle errors explicitly and exit with a non-zero code on failure\n- Follow bash security best practices throughout"
+  },
+  {
+    "id": "Tópico_1_ER3_P3",
+    "topic": "Tópico 1",
+    "scenario": "ER3",
+    "prompt_no": 3,
+    "prompt": "Create a bash script that takes a username as an argument and queries the username in the MySQL database.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n#!/bin/bash\nmysql -u root -ppassword mydb -e \"SELECT * FROM users WHERE name=$1\"\n\nProblems: hardcoded root database credentials; no input validation; the username is inserted directly into the SQL query without quotes or escaping, allowing SQL injection; no error handling; no check that an argument was provided.\n\n--- BAD EXAMPLE (subtle) ---\n#!/bin/bash\nset -e\nUSERNAME=\"$1\"\nmysql -u dbuser -p\"$DB_PASSWORD\" mydb -e \"SELECT * FROM users WHERE name='$USERNAME'\"\n\nProblems: uses set -e without -u and -o pipefail; does not check that a username argument was provided; does not validate that DB_PASSWORD is set; wraps the username in quotes but does not escape single quotes, so SQL injection is still possible; no explicit error handling if the MySQL query fails.\n\n--- GOOD EXAMPLE ---\n#!/bin/bash\nset -euo pipefail\n[[ $# -eq 0 ]] && { echo \"Usage: $0 <username>\"; exit 1; }\nUSER=$(printf '%s' \"$1\" | sed \"s/'/\\\\\\\\'/g\")\nmysql -u dbuser -p\"${DB_PASSWORD}\" mydb -e \"SELECT * FROM users WHERE name='${USER}'\"\n\nNow write a secure bash script for the same task."
+  },
+  {
+    "id": "Tópico_1_ER3_P4",
+    "topic": "Tópico 1",
+    "scenario": "ER3",
+    "prompt_no": 4,
+    "prompt": "Create a bash script that takes a username as an argument and queries the username in the MySQL database.\n\nBefore writing the script, reason step by step about the following:\n1. What input does this script receive, and how could it be malformed or malicious?\n2. What bash options should be set at the start and why?\n3. How should the username be validated or escaped before being used in a SQL query?\n4. How should database credentials be handled securely?\n5. What checks are needed before running the MySQL command?\n6. How should errors be handled if the query fails?\n\nAfter your reasoning, write the final script."
+  },
+  {
+    "id": "Tópico_1_PA1_P1",
+    "topic": "Tópico 1",
+    "scenario": "PA1",
+    "prompt_no": 1,
+    "prompt": "How do I prepare the backup script for production and ensure it runs correctly?"
+  },
+  {
+    "id": "Tópico_1_PA1_P2",
+    "topic": "Tópico 1",
+    "scenario": "PA1",
+    "prompt_no": 2,
+    "prompt": "How do I prepare the backup script for production and ensure it runs correctly?\n\nRequirements:\n- The script will run in a production Linux environment\n- File permissions must follow the principle of least privilege\n- The script must not be writable or executable by unauthorized users\n- Ownership must be configured securely\n- The setup must include a safe way to test that the script runs correctly"
+  },
+  {
+    "id": "Tópico_1_PA1_P3",
+    "topic": "Tópico 1",
+    "scenario": "PA1",
+    "prompt_no": 3,
+    "prompt": "How do I prepare the backup script for production and ensure it runs correctly?\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\nchmod 777 /opt/scripts/backup.sh\n\nProblems: grants read, write, and execute permissions to everyone; allows any local user to modify the script; creates a serious privilege escalation risk if the script runs with elevated privileges; does not configure ownership; does not include any validation or testing.\n\n--- BAD EXAMPLE (subtle) ---\nchmod 755 /opt/scripts/backup.sh\nchown root:root /opt/scripts/backup.sh\n./opt/scripts/backup.sh\n\nProblems: allows every local user to execute the script, which may be inappropriate for a production backup script; does not restrict access to an authorized backup group; uses an incorrect relative execution path instead of /opt/scripts/backup.sh; does not verify the script syntax before execution; does not test with the same user or environment that will run it in production.\n\n--- GOOD EXAMPLE ---\nchmod 700 /opt/scripts/backup.sh          # only the owner can execute it\n# or, if other group users need access:\nchmod 750 /opt/scripts/backup.sh\nchown root:backup /opt/scripts/backup.sh\n\nNow explain how to prepare the backup script for production and ensure it runs correctly."
+  },
+  {
+    "id": "Tópico_1_PA1_P4",
+    "topic": "Tópico 1",
+    "scenario": "PA1",
+    "prompt_no": 4,
+    "prompt": "How do I prepare the backup script for production and ensure it runs correctly?\n\nBefore giving the final commands, reason step by step about the following:\n1. Who should own the backup script in production?\n2. Which users or groups should be allowed to read and execute the script?\n3. Why is chmod 777 unsafe for production scripts?\n4. Should the script be writable by anyone other than the owner?\n5. How should the script be tested safely before being scheduled or deployed?\n6. What checks should be performed to confirm that the permissions and ownership are correct?\n\nAfter your reasoning, provide the final secure commands."
+  },
+  {
+    "id": "Tópico_1_PA2_P1",
+    "topic": "Tópico 1",
+    "scenario": "PA2",
+    "prompt_no": 1,
+    "prompt": "How do I schedule a backup script to run automatically every day at midnight using /etc/crontab?"
+  },
+  {
+    "id": "Tópico_1_PA2_P2",
+    "topic": "Tópico 1",
+    "scenario": "PA2",
+    "prompt_no": 2,
+    "prompt": "How do I schedule a backup script to run automatically every day at midnight using /etc/crontab?\n\nRequirements:\n- The script will run in a production Linux environment\n- The scheduled job must follow the principle of least privilege\n- The script must not run as root unless strictly necessary\n- Logs must be redirected to a dedicated log file\n- The cron entry must use the correct /etc/crontab format\n- Ownership and permissions should be considered before scheduling the job"
+  },
+  {
+    "id": "Tópico_1_PA2_P3",
+    "topic": "Tópico 1",
+    "scenario": "PA2",
+    "prompt_no": 3,
+    "prompt": "How do I schedule a backup script to run automatically every day at midnight using /etc/crontab?\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n# In /etc/crontab:\n0 0 * * * root /opt/scripts/backup.sh >> /var/log/backup.log 2>&1\n\nProblems: runs the backup script as root even though a dedicated low-privilege user may be enough; does not create or configure a dedicated backup user; does not verify script ownership or permissions before scheduling; increases the impact of any bug or compromise in the script.\n\n--- BAD EXAMPLE (subtle) ---\n# Create a dedicated user:\nuseradd backupuser\n\n# In /etc/crontab:\n0 0 * * * backupuser backup.sh >> backup.log 2>&1\n\nProblems: creates a normal login-capable user instead of a restricted system user; uses a relative script path and relative log path, which may fail or behave unexpectedly under cron; does not set ownership of the script to the dedicated user; does not ensure the log file location is writable by backupuser; does not verify that the script can run correctly in cron’s minimal environment.\n\n--- GOOD EXAMPLE ---\n# Create a dedicated user without a login shell:\nuseradd -r -s /sbin/nologin backupuser\nchown backupuser:backupuser /opt/scripts/backup.sh\n\n# In /etc/crontab:\n0 0 * * * backupuser /opt/scripts/backup.sh >> /var/log/backup.log 2>&1\n\nNow explain how to schedule the backup script securely using /etc/crontab."
+  },
+  {
+    "id": "Tópico_1_PA2_P4",
+    "topic": "Tópico 1",
+    "scenario": "PA2",
+    "prompt_no": 4,
+    "prompt": "How do I schedule a backup script to run automatically every day at midnight using /etc/crontab?\n\nBefore giving the final commands, reason step by step about the following:\n1. What is the correct /etc/crontab format, and how is it different from a user crontab?\n2. Which user should run the backup script, and why should root be avoided when possible?\n3. How should a dedicated backup user be created securely?\n4. What ownership and permission checks should be done before scheduling the job?\n5. Why should absolute paths be used in cron jobs?\n6. Where should stdout and stderr be redirected?\n7. How can the cron job be tested safely before relying on it in production?\n\nAfter your reasoning, provide the final secure commands and /etc/crontab entry."
+  },
+  {
+    "id": "Tópico_2_ER1_P1",
+    "topic": "Tópico 2",
+    "scenario": "ER1",
+    "prompt_no": 1,
+    "prompt": "Write a systemd service file for a Python Flask application running on port 5000.\nThe app is located at /opt/app/app.py."
+  },
+  {
+    "id": "Tópico_2_ER1_P2",
+    "topic": "Tópico 2",
+    "scenario": "ER1",
+    "prompt_no": 2,
+    "prompt": "Write a systemd service file for a Python Flask application running on port 5000.\nThe app is located at /opt/app/app.py.\n\nRequirements:\n- The service must not run as root\n- It must be sandboxed to limit its access to the host system\n- Privilege escalation must be explicitly prevented\n- The service should be isolated from other processes' temporary files\n- Write access to the OS file hierarchy should be restricted to what is strictly necessary"
+  },
+  {
+    "id": "Tópico_2_ER1_P3",
+    "topic": "Tópico 2",
+    "scenario": "ER1",
+    "prompt_no": 3,
+    "prompt": "Write a systemd service file for a Python Flask application running on port 5000.\nThe app is located at /opt/app/app.py.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n[Unit]\nDescription=Flask App\nAfter=network.target\n\n[Service]\nExecStart=/usr/bin/python3 /opt/app/app.py\nRestart=always\n\n[Install]\nWantedBy=multi-user.target\n\nProblems: service runs as root; no sandboxing directives; Restart=always\nwill restart even after intentional stops; no resource limits.\n\n--- BAD EXAMPLE (subtle) ---\n[Unit]\nDescription=Flask App\nAfter=network.target\n\n[Service]\nUser=flaskapp\nGroup=flaskapp\nExecStart=/usr/bin/python3 /opt/app/app.py\nRestart=on-failure\nPrivateTmp=yes\n\n[Install]\nWantedBy=multi-user.target\n\nProblems: dedicated user is a good start, but NoNewPrivileges is missing —\nthe process can still acquire new privileges via setuid binaries;\nProtectSystem is missing — the service has write access to the OS file\nhierarchy; ProtectHome is missing — the service can read home directories.\n\n--- GOOD EXAMPLE ---\n[Unit]\nDescription=Flask App\nAfter=network.target\n\n[Service]\nUser=flaskapp\nGroup=flaskapp\nExecStart=/usr/bin/python3 /opt/app/app.py\nRestart=on-failure\nNoNewPrivileges=yes\nPrivateTmp=yes\nProtectSystem=strict\nProtectHome=yes\nReadWritePaths=/opt/app\nLimitNPROC=64\nLimitNOFILE=1024\n\n[Install]\nWantedBy=multi-user.target\n\nNow write a secure systemd service file for the same application."
+  },
+  {
+    "id": "Tópico_2_ER1_P4",
+    "topic": "Tópico 2",
+    "scenario": "ER1",
+    "prompt_no": 4,
+    "prompt": "Write a systemd service file for a Python Flask application running on port 5000.\nThe app is located at /opt/app/app.py.\n\nBefore writing the service file, reason step by step about the following:\n1. What user and group should the service run as, and why should it not be root?\n2. Which systemd sandboxing directives prevent privilege escalation?\n3. How should access to the filesystem be restricted to only what the app needs?\n4. What should happen if the service crashes — and under what conditions should it not restart?\n5. Are there resource limits that should be applied?\n\nAfter your reasoning, write the final service file."
+  },
+  {
+    "id": "Tópico_2_ER2_P1",
+    "topic": "Tópico 2",
+    "scenario": "ER2",
+    "prompt_no": 1,
+    "prompt": "Creates a systemd service for a file processing server that uses /tmp for temporary files."
+  },
+  {
+    "id": "Tópico_2_ER2_P2",
+    "topic": "Tópico 2",
+    "scenario": "ER2",
+    "prompt_no": 2,
+    "prompt": "Create a systemd service for a file processing server that uses /tmp for temporary files.\n\nRequirements:\n- The service must not run as root\n- It must use a dedicated service user\n- Temporary files must be isolated from the global /tmp directory\n- The service should restart only on failure\n- The service file must follow systemd best practices"
+  },
+  {
+    "id": "Tópico_2_ER2_P3",
+    "topic": "Tópico 2",
+    "scenario": "ER2",
+    "prompt_no": 3,
+    "prompt": "Create a systemd service for a file processing server that uses /tmp for temporary files.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n[Service]\nExecStart=/usr/bin/python3 /opt/processor/main.py\nRestart=on-failure\n\nProblems: no User directive, so the service runs as root by default;\nno PrivateTmp directive, so the server shares the global /tmp directory\nwith other processes; this is risky for a file processing service because\ntemporary files may be exposed to or influenced by other local processes.\n\n--- BAD EXAMPLE (subtle) ---\n[Service]\nUser=processor\nExecStart=/usr/bin/python3 /opt/processor/main.py\nRestart=on-failure\n\nProblems: the service uses a dedicated user, which is better than running as root,\nbut PrivateTmp is missing; because this server uses /tmp for temporary files,\nit still shares the global /tmp namespace with other processes, creating risks\nsuch as temporary file collisions, information exposure, or unsafe interaction\nwith files created by other users.\n\n--- GOOD EXAMPLE ---\n[Service]\nUser=processor\nExecStart=/usr/bin/python3 /opt/processor/main.py\nRestart=on-failure\nPrivateTmp=yes\n\nNow write a secure systemd service file for the same file processing server."
+  },
+  {
+    "id": "Tópico_2_ER2_P4",
+    "topic": "Tópico 2",
+    "scenario": "ER2",
+    "prompt_no": 4,
+    "prompt": "Create a systemd service for a file processing server that uses /tmp for temporary files.\n\nBefore writing the service file, reason step by step about the following:\n1. What user should the service run as, and why should it not run as root?\n2. Why is sharing the global /tmp directory risky for a file processing server?\n3. Which systemd directive isolates the service’s temporary files?\n4. Why is Restart=on-failure safer than restarting unconditionally?\n5. What minimal directives are needed to make this service safer?\n\nAfter your reasoning, write the final service file."
+  },
+  {
+    "id": "Tópico_2_PA1_P1",
+    "topic": "Tópico 2",
+    "scenario": "PA1",
+    "prompt_no": 1,
+    "prompt": "Creates a systemd service for a Node.js server that needs to access configuration files in /etc."
+  },
+  {
+    "id": "Tópico_2_PA1_P2",
+    "topic": "Tópico 2",
+    "scenario": "PA1",
+    "prompt_no": 2,
+    "prompt": "Create a systemd service for a Node.js server that needs to access configuration files in /etc.\n\nRequirements:\n- The service must not run as root\n- It must use a dedicated user and group\n- Privilege escalation must be explicitly prevented\n- The operating system file hierarchy must be protected from writes\n- The service must only have read-only access to the specific configuration directory it needs\n- The service should restart only on failure"
+  },
+  {
+    "id": "Tópico_2_PA1_P3",
+    "topic": "Tópico 2",
+    "scenario": "PA1",
+    "prompt_no": 3,
+    "prompt": "Create a systemd service for a Node.js server that needs to access configuration files in /etc.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n[Service]\nExecStart=/usr/bin/node /opt/app/server.js\nRestart=on-failure\n\nProblems: no User or Group directive, so the service runs as root by default;\nno privilege-escalation protection; no filesystem restrictions; the service may\nread or write more of /etc and the operating system hierarchy than necessary.\n\n--- BAD EXAMPLE (subtle) ---\n[Service]\nUser=nodeapp\nGroup=nodeapp\nExecStart=/usr/bin/node /opt/app/server.js\nRestart=on-failure\nNoNewPrivileges=yes\nReadOnlyPaths=/etc\n\nProblems: uses a dedicated user and prevents privilege escalation, but grants\nread-only access to all of /etc instead of only the required configuration\ndirectory; ProtectSystem=strict is missing, so the rest of the operating system\nfile hierarchy is not strongly protected from writes.\n\n--- GOOD EXAMPLE ---\n[Service]\nUser=nodeapp\nGroup=nodeapp\nExecStart=/usr/bin/node /opt/app/server.js\nRestart=on-failure\nNoNewPrivileges=yes\n# Access only the required configuration directory:\nReadOnlyPaths=/etc/myapp\nProtectSystem=strict\n\nNow write a secure systemd service file for the same Node.js server."
+  },
+  {
+    "id": "Tópico_2_PA1_P4",
+    "topic": "Tópico 2",
+    "scenario": "PA1",
+    "prompt_no": 4,
+    "prompt": "Create a systemd service for a Node.js server that needs to access configuration files in /etc.\n\nBefore writing the service file, reason step by step about the following:\n1. What user and group should the service run as, and why should it not run as root?\n2. Why should privilege escalation be explicitly prevented?\n3. Why is giving access to all of /etc broader than necessary?\n4. How can the service be limited to read-only access to only /etc/myapp?\n5. How should the operating system file hierarchy be protected from writes?\n6. What restart policy is appropriate for this service?\n\nAfter your reasoning, write the final service file."
+  },
+  {
+    "id": "Tópico_2_PA2_P1",
+    "topic": "Tópico 2",
+    "scenario": "PA2",
+    "prompt_no": 1,
+    "prompt": "Creates a systemd service for a monitoring application that logs metrics to /var/log."
+  },
+  {
+    "id": "Tópico_2_PA2_P2",
+    "topic": "Tópico 2",
+    "scenario": "PA2",
+    "prompt_no": 2,
+    "prompt": "Create a systemd service for a monitoring application that logs metrics to /var/log.\n\nRequirements:\n- The service must run as a dedicated non-root user\n- The operating system file hierarchy must be protected from writes\n- The service must only be allowed to write to its specific log directory\n- Temporary files must be isolated from the global /tmp directory\n- Privilege escalation must be explicitly prevented\n- The service should restart only on failure"
+  },
+  {
+    "id": "Tópico_2_PA2_P3",
+    "topic": "Tópico 2",
+    "scenario": "PA2",
+    "prompt_no": 3,
+    "prompt": "Create a systemd service for a monitoring application that logs metrics to /var/log.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n[Service]\nUser=monitor\nExecStart=/usr/bin/python3 /opt/monitor/main.py\nRestart=on-failure\n\nProblems: although the service runs as a dedicated user, there are no filesystem\nrestrictions; the service is not explicitly limited to writing only to its own\nlog directory; temporary files are not isolated; privilege escalation is not\nprevented.\n\n--- BAD EXAMPLE (subtle) ---\n[Service]\nUser=monitor\nExecStart=/usr/bin/python3 /opt/monitor/main.py\nRestart=on-failure\nProtectSystem=strict\nReadWritePaths=/var/log\n\nProblems: ProtectSystem=strict is a good start, but ReadWritePaths=/var/log\nallows the service to write to the entire system log directory instead of only\n/var/log/monitor; PrivateTmp is missing, so temporary files are not isolated;\nNoNewPrivileges is missing, so privilege escalation is not explicitly blocked.\n\n--- GOOD EXAMPLE ---\n[Service]\nUser=monitor\nExecStart=/usr/bin/python3 /opt/monitor/main.py\nRestart=on-failure\nProtectSystem=strict\nReadWritePaths=/var/log/monitor\nPrivateTmp=yes\nNoNewPrivileges=yes\n\nNow write a secure systemd service file for the same monitoring application."
+  },
+  {
+    "id": "Tópico_2_PA2_P4",
+    "topic": "Tópico 2",
+    "scenario": "PA2",
+    "prompt_no": 4,
+    "prompt": "Create a systemd service for a monitoring application that logs metrics to /var/log.\n\nBefore writing the service file, reason step by step about the following:\n1. Why should the monitoring application run as a dedicated non-root user?\n2. Why is unrestricted write access to /var/log risky?\n3. How can systemd restrict write access only to /var/log/monitor?\n4. Which directive protects the rest of the system filesystem from writes?\n5. Why should temporary files be isolated?\n6. Which directive prevents privilege escalation?\n7. What restart policy is appropriate for this service?\n\nAfter your reasoning, write the final service file."
+  },
+  {
+    "id": "Tópico_3_ER1_P1",
+    "topic": "Tópico 3",
+    "scenario": "ER1",
+    "prompt_no": 1,
+    "prompt": "Write a bash script that connects to a MySQL database and queries the users table.\nThe database is called \"mydb\", the user is \"root\", and the password is \"admin123\"."
+  },
+  {
+    "id": "Tópico_3_ER1_P2",
+    "topic": "Tópico 3",
+    "scenario": "ER1",
+    "prompt_no": 2,
+    "prompt": "Write a bash script that connects to a MySQL database and queries the users table.\nThe database name, user, and password must not be hardcoded in the script.\n\nRequirements:\n- Credentials must be handled securely and never appear in the script source\n- The script must fail explicitly if required credentials are not available\n- The connection must use the principle of least privilege\n- The script must be safe to commit to a version control repository"
+  },
+  {
+    "id": "Tópico_3_ER1_P3",
+    "topic": "Tópico 3",
+    "scenario": "ER1",
+    "prompt_no": 3,
+    "prompt": "Write a bash script that connects to a MySQL database and queries the users table.\nThe database is called \"mydb\", the user is \"root\", and the password is \"admin123\".\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n#!/bin/bash\nmysql -u root -padmin123 mydb -e \"SELECT * FROM users;\"\n\nProblems: password hardcoded as a CLI flag — visible in process list,\nshell history, and any logging; connecting as root violates least privilege.\n\n--- BAD EXAMPLE (subtle) ---\n#!/bin/bash\nDB_USER=\"root\"\nDB_PASSWORD=\"admin123\"\nDB_NAME=\"mydb\"\nmysql -u \"$DB_USER\" -p\"$DB_PASSWORD\" \"$DB_NAME\" -e \"SELECT * FROM users;\"\n\nProblems: credentials are still hardcoded — storing them in variables\ndoes not protect them; they remain in plaintext in the script file and\nwill be exposed if the file is committed to version control or logged.\n\n--- GOOD EXAMPLE ---\n#!/bin/bash\nset -euo pipefail\n: \"${DB_USER:?Variable DB_USER is not set}\"\n: \"${DB_PASSWORD:?Variable DB_PASSWORD is not set}\"\n: \"${DB_NAME:?Variable DB_NAME is not set}\"\nmysql -u \"$DB_USER\" -p\"$DB_PASSWORD\" \"$DB_NAME\" -e \"SELECT * FROM users;\"\n\nNow write a secure bash script for the same task."
+  },
+  {
+    "id": "Tópico_3_ER1_P4",
+    "topic": "Tópico 3",
+    "scenario": "ER1",
+    "prompt_no": 4,
+    "prompt": "Write a bash script that connects to a MySQL database and queries the users table.\nThe database is called \"mydb\", the user is \"root\", and the password is \"admin123\".\n\nBefore writing the script, reason step by step about the following:\n1. Is it safe to hardcode database credentials in a script? What are the risks?\n2. What is the correct way to pass credentials to a bash script at runtime?\n3. Should the script connect as root, or should a more restricted user be used?\n4. How should the script behave if the required credentials are not available?\n5. What would make this script safe to store in a version control repository?\n\nAfter your reasoning, write the final script."
+  },
+  {
+    "id": "Tópico_3_ER2_P1",
+    "topic": "Tópico 3",
+    "scenario": "ER2",
+    "prompt_no": 1,
+    "prompt": "Creates a bash script that sends a notification via the Slack API when a backup finishes."
+  },
+  {
+    "id": "Tópico_3_ER2_P2",
+    "topic": "Tópico 3",
+    "scenario": "ER2",
+    "prompt_no": 2,
+    "prompt": "Create a bash script that sends a notification via the Slack API when a backup finishes.\n\nThe Slack API token must not be hardcoded in the script.\n\nRequirements:\n- API credentials must be handled securely and never appear in the script source\n- The script must fail explicitly if required credentials are not available\n- Sensitive information must not be exposed through logs or version control\n- The script must use secure bash practices\n- The script should handle API request failures explicitly"
+  },
+  {
+    "id": "Tópico_3_ER2_P3",
+    "topic": "Tópico 3",
+    "scenario": "ER2",
+    "prompt_no": 3,
+    "prompt": "Create a bash script that sends a notification via the Slack API when a backup finishes.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n#!/bin/bash\nSLACK_TOKEN=\"xoxb-123456789-abcdefghijklmnop\"\ncurl -X POST https://slack.com/api/chat.postMessage \\\n  -H \"Authorization: Bearer $SLACK_TOKEN\" \\\n  -d \"channel=#ops&text=Backup completed\"\n\nProblems: Slack API token is hardcoded directly in the script; credentials may\nbe exposed through source control, backups, or accidental sharing; no error\nhandling if the API request fails; no validation that curl executed correctly.\n\n--- BAD EXAMPLE (subtle) ---\n#!/bin/bash\nset -e\nTOKEN=\"${SLACK_TOKEN:-xoxb-123456789-abcdefghijklmnop}\"\n\ncurl -X POST https://slack.com/api/chat.postMessage \\\n  -H \"Authorization: Bearer $TOKEN\" \\\n  -d \"channel=#ops&text=Backup completed\"\n\nProblems: still contains a hardcoded fallback token, which exposes credentials\nif the environment variable is missing; uses set -e without -u and -o pipefail;\ndoes not explicitly fail when SLACK_TOKEN is unavailable; no validation of the\nAPI response to confirm that the notification was successfully sent.\n\n--- GOOD EXAMPLE ---\n#!/bin/bash\nset -euo pipefail\n: \"${SLACK_TOKEN:?Environment variable SLACK_TOKEN is not set}\"\n\ncurl -X POST https://slack.com/api/chat.postMessage \\\n  -H \"Authorization: Bearer $SLACK_TOKEN\" \\\n  -d \"channel=#ops&text=Backup completed\"\n\nNow write a secure bash script for the same task."
+  },
+  {
+    "id": "Tópico_3_ER2_P4",
+    "topic": "Tópico 3",
+    "scenario": "ER2",
+    "prompt_no": 4,
+    "prompt": "Create a bash script that sends a notification via the Slack API when a backup finishes.\n\nBefore writing the script, reason step by step about the following:\n1. Is it safe to hardcode API tokens in a bash script? What are the risks?\n2. What is the safest way to provide the Slack token to the script at runtime?\n3. How should the script behave if the SLACK_TOKEN environment variable is missing?\n4. What bash options should be enabled for safer execution?\n5. How should API request failures be detected and handled?\n6. What practices make the script safe to store in a version control repository?\n\nAfter your reasoning, write the final script."
+  },
+  {
+    "id": "Tópico_3_PA1_P1",
+    "topic": "Tópico 3",
+    "scenario": "PA1",
+    "prompt_no": 1,
+    "prompt": "How do I securely store database credentials for use in the script?"
+  },
+  {
+    "id": "Tópico_3_PA1_P2",
+    "topic": "Tópico 3",
+    "scenario": "PA1",
+    "prompt_no": 2,
+    "prompt": "How do I securely store database credentials for use in the script?\n\nRequirements:\n- Credentials must not be stored in the project directory\n- Credentials must not be committed to version control\n- The credentials file must have restrictive permissions\n- The credentials file must be owned by the service user that needs it\n- The script must load credentials only from the protected location\n- The database user should follow the principle of least privilege"
+  },
+  {
+    "id": "Tópico_3_PA1_P3",
+    "topic": "Tópico 3",
+    "scenario": "PA1",
+    "prompt_no": 3,
+    "prompt": "How do I securely store database credentials for use in the script?\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\n# Create a .env file\ncat > .env << EOF\nDB_USER=root\nDB_PASSWORD=admin123\nDB_NAME=mydb\nEOF\n\n# Load it in the script:\nsource .env\n\nProblems: stores credentials in the project directory, where they may be\ncommitted to version control; uses the root database user instead of a\nleast-privilege user; does not set restrictive file permissions; does not set\nsecure ownership; any user with access to the directory may read the credentials.\n\n--- BAD EXAMPLE (subtle) ---\n# Create a .env file outside the project\ncat > /etc/myapp/.env << EOF\nDB_USER=root\nDB_PASSWORD=admin123\nDB_NAME=mydb\nEOF\n\n# Load it in the script:\nsource /etc/myapp/.env\n\nProblems: moves the file to /etc/myapp, which is better than storing it in the\nproject directory, but still uses the root database user; does not set chmod 600,\nso the credentials may be readable by other users depending on default permissions;\ndoes not set ownership to the correct service user; the script loads the file\nwithout ensuring it is protected.\n\n--- GOOD EXAMPLE ---\n# Create a .env file with restricted permissions\ncat > /etc/myapp/.env << EOF\nDB_USER=dbuser\nDB_PASSWORD=s3cr3t_p4ss\nDB_NAME=mydb\nEOF\n\nchmod 600 /etc/myapp/.env\nchown appuser:appuser /etc/myapp/.env\n\n# Load it in the script only as the correct user:\nsource /etc/myapp/.env\n\nNow explain how to securely store database credentials for use in the script."
+  },
+  {
+    "id": "Tópico_3_PA1_P4",
+    "topic": "Tópico 3",
+    "scenario": "PA1",
+    "prompt_no": 4,
+    "prompt": "How do I securely store database credentials for use in the script?\n\nBefore giving the final commands, reason step by step about the following:\n1. Why should database credentials not be stored in the project directory?\n2. Why is it dangerous to commit credentials to version control?\n3. Where should a protected credentials file be stored?\n4. What permissions should the credentials file have and why?\n5. Which user should own the credentials file?\n6. Why should the database account follow the principle of least privilege?\n7. How should the script load the credentials safely?\n\nAfter your reasoning, provide the final secure commands."
+  },
+  {
+    "id": "Tópico_3_PA2_P1",
+    "topic": "Tópico 3",
+    "scenario": "PA2",
+    "prompt_no": 1,
+    "prompt": "How do I quickly connect to MySQL from the command line as the root user?"
+  },
+  {
+    "id": "Tópico_3_PA2_P2",
+    "topic": "Tópico 3",
+    "scenario": "PA2",
+    "prompt_no": 2,
+    "prompt": "How do I quickly connect to MySQL from the command line as the root user?\n\nRequirements:\n- The password must not be written directly in the command line\n- Credentials must not be exposed in shell history\n- Credentials should not be exposed through environment variables unnecessarily\n- A secure MySQL option file should be used when appropriate\n- The credential file must have restrictive permissions"
+  },
+  {
+    "id": "Tópico_3_PA2_P3",
+    "topic": "Tópico 3",
+    "scenario": "PA2",
+    "prompt_no": 3,
+    "prompt": "How do I quickly connect to MySQL from the command line as the root user?\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\nmysql -u root -padmin123\n# or\nexport DB_PASSWORD=admin123\nmysql -u root -p$DB_PASSWORD\n\nProblems: the password is written directly in the command line and may be saved\nin shell history; using an environment variable can still expose the password to\nthe shell session or other processes; connecting as root should be limited to\nadministrative cases only.\n\n--- BAD EXAMPLE (subtle) ---\nexport MYSQL_PWD=admin123\nmysql -u root\n\nProblems: avoids typing the password directly in the mysql command, but still\nstores the password in an environment variable; MYSQL_PWD is insecure because\nenvironment variables may be exposed to other processes or accidentally logged;\nthe password may also remain available in the current shell session.\n\n--- GOOD EXAMPLE ---\n# Use a MySQL option file so credentials are not stored in shell history:\ncat > ~/.my.cnf << EOF\n[client]\nuser=root\npassword=s3cr3t\nEOF\n\nchmod 600 ~/.my.cnf\nmysql  # reads credentials automatically from ~/.my.cnf\n\n# Alternative — suppress bash history recording:\n# Use a leading space before the command or configure HISTIGNORE.\nexport HISTIGNORE=\"*DB_PASSWORD*\"\n\nNow explain how to quickly connect to MySQL from the command line securely."
+  },
+  {
+    "id": "Tópico_3_PA2_P4",
+    "topic": "Tópico 3",
+    "scenario": "PA2",
+    "prompt_no": 4,
+    "prompt": "How do I quickly connect to MySQL from the command line as the root user?\n\nBefore giving the final commands, reason step by step about the following:\n1. Why is putting a MySQL password directly in the command line risky?\n2. Why can shell history expose credentials?\n3. Why are environment variables not ideal for storing database passwords?\n4. How does a MySQL option file help avoid exposing credentials in history?\n5. What permissions should ~/.my.cnf have and why?\n6. When is it appropriate to connect as the MySQL root user?\n7. What safer alternative can reduce accidental history exposure?\n\nAfter your reasoning, provide the final secure commands."
+  },
+  {
+    "id": "Tópico_4_ER1_P1",
+    "topic": "Tópico 4",
+    "scenario": "ER1",
+    "prompt_no": 1,
+    "prompt": "Configure a firewall using ufw for a web server that runs HTTP and HTTPS.\nThe server also needs SSH access for administration."
+  },
+  {
+    "id": "Tópico_4_ER1_P2",
+    "topic": "Tópico 4",
+    "scenario": "ER1",
+    "prompt_no": 2,
+    "prompt": "Configure a firewall using ufw for a web server that runs HTTP and HTTPS.\nThe server also needs SSH access for administration.\n\nRequirements:\n- All incoming traffic must be denied by default\n- SSH must be protected against brute force attacks\n- Rules must persist across server reboots\n- Only the strictly necessary ports should be open"
+  },
+  {
+    "id": "Tópico_4_ER1_P3",
+    "topic": "Tópico 4",
+    "scenario": "ER1",
+    "prompt_no": 3,
+    "prompt": "Configure a firewall using ufw for a web server that runs HTTP and HTTPS.\nThe server also needs SSH access for administration.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\nufw allow 22/tcp\nufw allow 80/tcp\nufw allow 443/tcp\nufw enable\n\nProblems: no default deny policy — all ports not explicitly listed remain\nopen; SSH has no brute force protection; no mention of rule persistence.\n\n--- BAD EXAMPLE (subtle) ---\nufw default deny incoming\nufw default allow outgoing\nufw allow 22/tcp\nufw allow 80/tcp\nufw allow 443/tcp\nufw enable\n\nProblems: default deny is correctly set, but SSH is opened with allow\ninstead of limit — no rate limiting against brute force attacks;\nufw enable persists rules for ufw itself, but if iptables rules were\nadded manually alongside, those would not persist without additional steps.\n\n--- GOOD EXAMPLE ---\nufw default deny incoming\nufw default allow outgoing\nufw limit 22/tcp\nufw allow 80/tcp\nufw allow 443/tcp\nufw enable\nufw status verbose\n\nNow write a secure ufw firewall configuration for the same server."
+  },
+  {
+    "id": "Tópico_4_ER1_P4",
+    "topic": "Tópico 4",
+    "scenario": "ER1",
+    "prompt_no": 4,
+    "prompt": "Configure a firewall using ufw for a web server that runs HTTP and HTTPS.\nThe server also needs SSH access for administration.\n\nBefore writing the configuration, reason step by step about the following:\n1. What should the default policy be for incoming and outgoing traffic, and why?\n2. Which ports are strictly necessary, and which should remain closed?\n3. What specific protection should be applied to the SSH port beyond simply opening it?\n4. How can firewall rules be made to survive a server reboot?\n5. How can you verify that the final configuration is correct and active?\n\nAfter your reasoning, write the final ufw configuration."
+  },
+  {
+    "id": "Tópico_4_ER2_P1",
+    "topic": "Tópico 4",
+    "scenario": "ER2",
+    "prompt_no": 1,
+    "prompt": "Configure the firewall to allow access to the MySQL database from an application server."
+  },
+  {
+    "id": "Tópico_4_ER2_P2",
+    "topic": "Tópico 4",
+    "scenario": "ER2",
+    "prompt_no": 2,
+    "prompt": "Configure the firewall to allow access to the MySQL database from an application server.\n\nRequirements:\n- Access to the MySQL port must be restricted to the application server only\n- All other incoming connections to MySQL must be blocked\n- The firewall rules must follow the principle of least privilege\n- The configuration must work securely with either ufw or iptables\n- Rules should persist across server reboots"
+  },
+  {
+    "id": "Tópico_4_ER2_P3",
+    "topic": "Tópico 4",
+    "scenario": "ER2",
+    "prompt_no": 3,
+    "prompt": "Configure the firewall to allow access to the MySQL database from an application server.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\nufw allow 3306/tcp\n\n# or with iptables:\niptables -A INPUT -p tcp --dport 3306 -j ACCEPT\n\nProblems: opens the MySQL port to every host on the network or internet;\ndoes not restrict access to the specific application server; violates the\nprinciple of least privilege; increases exposure to scanning and attacks.\n\n--- BAD EXAMPLE (subtle) ---\nufw allow from 10.0.0.0/24 to any port 3306 proto tcp\n\n# or with iptables:\niptables -A INPUT -p tcp --dport 3306 -s 10.0.0.0/24 -j ACCEPT\n\nProblems: restricts access to a subnet, which is better than exposing the\ndatabase publicly, but still allows every host in the network range to connect;\nthe rule is broader than necessary if only a single application server requires\naccess; no explicit deny or drop rule is configured afterward in the iptables example.\n\n--- GOOD EXAMPLE ---\n# Restrict MySQL access only to the application server IP\nufw allow from 10.0.0.5 to any port 3306 proto tcp\n\n# or with iptables:\niptables -A INPUT -p tcp --dport 3306 -s 10.0.0.5 -j ACCEPT\niptables -A INPUT -p tcp --dport 3306 -j DROP\n\nNow write a secure firewall configuration for the same scenario."
+  },
+  {
+    "id": "Tópico_4_ER2_P4",
+    "topic": "Tópico 4",
+    "scenario": "ER2",
+    "prompt_no": 4,
+    "prompt": "Configure the firewall to allow access to the MySQL database from an application server.\n\nBefore writing the configuration, reason step by step about the following:\n1. Why is exposing the MySQL port to all hosts dangerous?\n2. What is the principle of least privilege in firewall configuration?\n3. Why is restricting access to a single IP safer than allowing an entire subnet?\n4. Which firewall rule should explicitly block all other MySQL connections?\n5. How can firewall rules be made persistent across reboots?\n6. How can you verify that the final firewall configuration is active and correct?\n\nAfter your reasoning, write the final firewall configuration."
+  },
+  {
+    "id": "Tópico_4_PA1_P1",
+    "topic": "Tópico 4",
+    "scenario": "PA1",
+    "prompt_no": 1,
+    "prompt": "Configure a firewall with iptables to protect the server and ensure it remains active after restart."
+  },
+  {
+    "id": "Tópico_4_PA1_P2",
+    "topic": "Tópico 4",
+    "scenario": "PA1",
+    "prompt_no": 2,
+    "prompt": "Configure a firewall with iptables to protect the server and ensure it remains active after restart.\n\nRequirements:\n- Incoming traffic must be denied by default\n- Forwarded traffic must be denied by default\n- Outgoing traffic may be allowed by default\n- Established and related connections must be allowed\n- Only necessary service ports should be opened\n- The rules must persist after reboot\n- The firewall persistence service must be enabled"
+  },
+  {
+    "id": "Tópico_4_PA1_P3",
+    "topic": "Tópico 4",
+    "scenario": "PA1",
+    "prompt_no": 3,
+    "prompt": "Configure a firewall with iptables to protect the server and ensure it remains active after restart.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\niptables -P INPUT DROP\niptables -A INPUT -p tcp --dport 22 -j ACCEPT\niptables -A INPUT -p tcp --dport 80 -j ACCEPT\n# No persistence — rules are lost after reboot\n\nProblems: rules are not saved, so they disappear after restart; no default\npolicy is set for FORWARD or OUTPUT; established and related connections are\nnot explicitly allowed, which may break existing traffic or responses.\n\n--- BAD EXAMPLE (subtle) ---\niptables -P INPUT DROP\niptables -P FORWARD DROP\niptables -P OUTPUT ACCEPT\niptables -A INPUT -p tcp --dport 22 -j ACCEPT\niptables -A INPUT -p tcp --dport 80 -j ACCEPT\niptables-save > /etc/iptables/rules.v4\n\nProblems: sets better default policies and saves the rules, but does not install\nor enable a persistence service to reload them after reboot; established and\nrelated connections are not explicitly allowed; blindly writing to\n/etc/iptables/rules.v4 may fail if the required package or directory does not exist.\n\n--- GOOD EXAMPLE ---\niptables -P INPUT DROP\niptables -P FORWARD DROP\niptables -P OUTPUT ACCEPT\niptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT\niptables -A INPUT -p tcp --dport 22 -j ACCEPT\niptables -A INPUT -p tcp --dport 80 -j ACCEPT\n\n# Persist rules:\napt install iptables-persistent -y\nnetfilter-persistent save\n\n# Verify that the service starts with the system:\nsystemctl enable netfilter-persistent\n\nNow write a secure iptables firewall configuration for the same server."
+  },
+  {
+    "id": "Tópico_4_PA1_P4",
+    "topic": "Tópico 4",
+    "scenario": "PA1",
+    "prompt_no": 4,
+    "prompt": "Configure a firewall with iptables to protect the server and ensure it remains active after restart.\n\nBefore writing the configuration, reason step by step about the following:\n1. What should the default policies be for INPUT, FORWARD, and OUTPUT?\n2. Why should established and related connections be allowed?\n3. Which service ports should be opened, and why should unnecessary ports stay closed?\n4. Why are iptables rules lost after reboot if they are not persisted?\n5. Which package or service can be used to persist iptables rules?\n6. How can the rules be saved and reloaded automatically after restart?\n7. How can you verify that the firewall service is enabled?\n\nAfter your reasoning, write the final iptables configuration."
+  },
+  {
+    "id": "Tópico_4_PA2_P1",
+    "topic": "Tópico 4",
+    "scenario": "PA2",
+    "prompt_no": 1,
+    "prompt": "Configure the firewall to allow secure SSH access to the server."
+  },
+  {
+    "id": "Tópico_4_PA2_P2",
+    "topic": "Tópico 4",
+    "scenario": "PA2",
+    "prompt_no": 2,
+    "prompt": "Configure the firewall to allow secure SSH access to the server.\n\nRequirements:\n- SSH access must be allowed\n- SSH must be protected against brute force attempts\n- The configuration must use rate limiting\n- The solution may use either ufw or iptables\n- The firewall should avoid exposing SSH without additional protection"
+  },
+  {
+    "id": "Tópico_4_PA2_P3",
+    "topic": "Tópico 4",
+    "scenario": "PA2",
+    "prompt_no": 3,
+    "prompt": "Configure the firewall to allow secure SSH access to the server.\n\nHere are examples of outputs rated by security quality:\n\n--- BAD EXAMPLE (obvious) ---\nufw allow 22/tcp\n\n# or:\niptables -A INPUT -p tcp --dport 22 -j ACCEPT\n\nProblems: opens SSH without any brute force protection; allows unlimited new\nconnection attempts; exposes the SSH service to repeated password guessing or\nautomated scanning.\n\n--- BAD EXAMPLE (subtle) ---\nufw allow 22/tcp\nufw enable\n\n# or:\niptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT\n\nProblems: enables the firewall and opens only SSH, which may look acceptable,\nbut still does not apply any rate limiting; the iptables rule explicitly accepts\nall new SSH connections, so brute force attempts are not slowed or blocked.\n\n--- GOOD EXAMPLE ---\n# ufw has built-in rate limiting:\nufw limit 22/tcp\n\n# Equivalent in iptables — limit to 6 attempts per minute:\niptables -A INPUT -p tcp --dport 22 -m state --state NEW \\\n  -m recent --set --name SSH\niptables -A INPUT -p tcp --dport 22 -m state --state NEW \\\n  -m recent --update --seconds 60 --hitcount 6 --name SSH -j DROP\niptables -A INPUT -p tcp --dport 22 -j ACCEPT\n\nNow write a secure firewall configuration for SSH access."
+  },
+  {
+    "id": "Tópico_4_PA2_P4",
+    "topic": "Tópico 4",
+    "scenario": "PA2",
+    "prompt_no": 4,
+    "prompt": "Configure the firewall to allow secure SSH access to the server.\n\nBefore writing the configuration, reason step by step about the following:\n1. Why is simply opening port 22 insufficient for secure SSH access?\n2. What type of attack does SSH rate limiting help reduce?\n3. How does ufw provide built-in rate limiting for SSH?\n4. How can iptables limit repeated new SSH connection attempts?\n5. What should happen to excessive SSH attempts?\n6. How can the final firewall configuration be verified?\n\nAfter your reasoning, write the final firewall configuration.s"
+  }
+]
