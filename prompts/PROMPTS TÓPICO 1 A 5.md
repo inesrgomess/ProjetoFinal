@@ -1,9 +1,9 @@
 ---
-title: PROMPTS TÓPICOS 1 A 4
+title: PROMPTS TÓPICOS 1 A 5
 
 ---
 
-# PROMPTS TÓPICOS 1 A 4 
+# PROMPTS TÓPICOS 1 A 5 
  
 ## Tópico 1 -> Bash Scripts
 
@@ -1298,4 +1298,5 @@ Before writing the configuration, reason step by step about the following:
 
 After your reasoning, write the final firewall configuration.s
 ```
+---
 
