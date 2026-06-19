@@ -7,7 +7,7 @@ title: PROMPTS TÓPICO 5
 
 ## Tópico 5 - Cifra de Ficheiros com Criptografia Simétrica e Assimétrica
 
-### 1º exemplo
+### Cifra Simétrica
 *prompt 1:*
 ```
 Create a Bash program and a Python program that generate a 128-bit key and encrypt a file.
@@ -97,7 +97,7 @@ Before writing the programs, reason step by step about the following:
 After your reasoning, write the final Bash and Python programs.
 ```
 
-### 2º exemplo
+### Cifra Hibrida 
 *prompt 1:*
 ```
 Create a Bash script and a Python script that encrypt a file to be sent to Bob using public-key cryptography efficiently.
@@ -222,7 +222,7 @@ Before writing the scripts, reason step by step about the following:
 After your reasoning, write the final Bash and Python scripts.
 ```
 
-### 3º exemplo
+### Decifra hibrida
 *prompt 1:*
 ```
 Create a Bash script and a Python script that decrypt a file received by Bob using public-key cryptography.
