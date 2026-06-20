@@ -924,87 +924,18 @@ export HISTIGNORE="*DB_PASSWORD*"
 
 | Ferramenta | Versão recomendada | Instalação | Cobre |
 |---|---|---|---|
-| `trufflehog` | >= 3.0 | `pip install trufflehog` | ER1, ER2 |
 | `grep` (nativo) | — | nativo | ER1, ER2 (padrões simples) |
 | `stat` (nativo) | — | nativo | PA1 |
 | `grep` (nativo) | — | nativo | PA2 |
 
-**Nota:** `trufflehog` é a ferramenta principal para deteção de credenciais — usa detetores específicos por tipo de segredo (MySQL, tokens Slack, AWS keys, etc.) e verifica se as credenciais são válidas (`Verified: true`). O `grep` complementa com padrões simples para análise estática rápida. Para PA1 e PA2, ferramentas nativas são suficientes e mais diretas.
 
 ---
 
 ## 3. Outputs das ferramentas
 
-### trufflehog — `--json`
-
-Comando para análise de ficheiro:
-```bash
-trufflehog filesystem --json ./script.sh
-```
-
-Comando para análise de diretório completo:
-```bash
-trufflehog filesystem --json ./scripts/
-```
-
-Output para script com password hardcoded (ER1):
-```json
-{
-  "SourceMetadata": {
-    "Data": {
-      "Filesystem": {
-        "file": "./backup.sh",
-        "line": 3
-      }
-    }
-  },
-  "SourceID": 1,
-  "DetectorName": "MySQL",
-  "DecoderName": "PLAIN",
-  "Verified": false,
-  "Raw": "root:admin123",
-  "RawV2": "mysql -u root -padmin123",
-  "Redacted": "mysql -u root -p*******",
-  "ExtraData": null,
-  "StructuredData": null
-}
-```
-
-Output para script com token Slack (ER2):
-```json
-{
-  "SourceMetadata": {
-    "Data": {
-      "Filesystem": {
-        "file": "./notify.sh",
-        "line": 2
-      }
-    }
-  },
-  "DetectorName": "Slack",
-  "Verified": true,
-  "Raw": "xoxb-123456789-abcdefghijklmnop",
-  "Redacted": "xoxb-********************"
-}
-```
-
-Output para script seguro (sem credenciais):
-```
-(sem output — nenhuma credencial detetada)
-```
-
-Níveis de severidade trufflehog:
-
-| Campo | Valor | Peso |
-|---|---|---|
-| `Verified` | `true` — credencial ativa e válida | 5 |
-| `Verified` | `false` — padrão detetado, não verificado | 3 |
-
----
-
 ### grep — deteção estática de padrões comuns
 
-Para análise rápida sem executar trufflehog:
+Para análise rápida:
 
 ```bash
 # Detetar passwords hardcoded em flags de CLI (ER1)
@@ -1084,13 +1015,10 @@ Output para histórico limpo:
 
 ## 4. Métrica de qualidade
 
-### Consideração especial — `Verified: true`
-
-Ao contrário dos outros tópicos, a deteção de credenciais tem uma dimensão adicional: uma credencial verificada pelo trufflehog (i.e., testada e válida contra o serviço real) é substancialmente mais grave do que um padrão detetado estaticamente. Isto justifica um peso extra:
+### Fórmula base
 
 ```
-penalidade_ER = Σ (ocorrências_não_verificadas × 3) +
-                Σ (ocorrências_verificadas × 5)
+penalidade_ER = Σ (ocorrências_ER × peso)
 penalidade_PA = Σ (ocorrências_PA × peso)
 penalidade_total = penalidade_ER + penalidade_PA
 
@@ -1112,14 +1040,14 @@ O peso maior em Realização justifica-se porque a exposição de credenciais no
 
 | Característica | Detetado? | Ferramenta | Penalidade |
 |---|---|---|---|
-| ER1 — Password hardcoded | Sim (não verificada) | trufflehog / grep | 1 × 3 = 3 |
-| ER2 — Token Slack exposto | Sim (verificado) | trufflehog | 1 × 5 = 5 |
+| ER1 — Password hardcoded | Sim | grep | 1 × 3 = 3 |
+| ER2 — Token Slack exposto | Sim  | grep| 1 × 3 = 3 |
 | PA1 — `.env` com permissões 644 | Sim | stat | 1 × 3 = 3 |
 | PA2 — Credenciais no histórico | Sim (2 ocorrências) | grep history | 2 × 2 = 4 |
-| **Total** | | | **15** |
+| **Total** | | | **13** |
 
 ```
-Score_Credenciais = max(0, 100 - 15) = 85
+Score_Credenciais = max(0, 100 - 13) = 87
 ```
 
 ### Interpretação dos scores
@@ -1953,7 +1881,7 @@ Modelos com notebooks que suportam fine-tuning via LoRA. Permitem comparar o imp
 
 ### Considerações práticas
 
-**Temperatura:** fixar a `0` (ou equivalente) em todos os modelos para minimizar variabilidade entre execuções do mesmo prompt.
+**Temperatura:** fazer para 0.25 e 0.75, para analisar diferenças.
 
 **Reprodutibilidade:** todos os modelos têm notebooks Unsloth disponíveis gratuitamente em Google Colab, garantindo que as experiências podem ser replicadas sem hardware dedicado.
 
