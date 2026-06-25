@@ -213,9 +213,9 @@ Score_Administracao = 100 x (1-20/60) = 66.67
 
 
 ### Conclusão
-Score_Cifras = (Score_Realizacao × 0.6) + (Score_Administracao × 0.4)
+Score_Cifra = (Score_Realizacao × 0.6) + (Score_Administracao × 0.4)
 
-| Modelo  | Score_Realizacao | Score_Administracao | Score_Cifras |
+| Modelo  | Score_Realizacao | Score_Administracao | Score_Cifra  |
 | ------- |:----------------:|:-------------------:|:------------:|
 | Gemini  |      67.86       |        76.67        |    71.38     |
 | Claude  |      50.00       |        60.00        |    54.00     |
@@ -232,7 +232,7 @@ Score_Global = (Score_Bash        × 0.20) +
                (Score_systemd     × 0.20) +
                (Score_Credenciais × 0.20) +
                (Score_Firewall    × 0.15) + 
-               (Score_Cifras      × 0.25) 
+               (Score_Cifra       × 0.25) 
 
 
 | Modelo  | Score_Global |
