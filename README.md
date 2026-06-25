@@ -1,28 +1,29 @@
+
 # ProjetoFinal
 
 **Fiabilidade de Chatbots na Elaboração de Instruções ou Programas que Integrem Criptografia**
 
-Este repositório contém os materiais utilizados no desenvolvimento do projeto final, incluindo os prompts, benchmark, resultados das avaliações manuais e automatizadas, scripts Python e ficheiros de apoio à análise dos resultados.
+Este repositório contém todos os materiais desenvolvidos no âmbito deste projeto, incluindo o benchmark, os prompts, os scripts de automatização, as respostas geradas pelos modelos e os resultados das avaliações manual e automatizada.
 
 ## Estrutura do Repositório
 
 ### Avaliação Automatizada
 
-Contém os ficheiros relacionados com a execução e avaliação automatizada dos modelos open-source. Nesta pasta encontram-se os scripts Python utilizados para gerar respostas, avaliar os resultados e produzir os ficheiros finais de análise.
+Inclui os scripts Python utilizados para gerar respostas, avaliar automaticamente os resultados e produzir os ficheiros finais de análise.
 
-Inclui também os resultados obtidos pelos modelos avaliados automaticamente, organizados por modelo e/ou configuração experimental.
+Contém ainda as respostas geradas pelos modelos open-source, os resultados obtidos em cada execução e as tabelas finais utilizadas na análise experimental.
 
 ### Avaliação Manual
 
-Contém os materiais utilizados na avaliação manual dos modelos comerciais. Nesta pasta encontram-se os registos das respostas, tabelas de avaliação e resultados calculados manualmente.
+Inclui as tabelas de avaliação utilizadas na análise dos modelos comerciais, bem como os respetivos resultados.
 
-### benchmark
+### Benchmark
 
-Contém a definição do benchmark utilizado no projeto. Inclui os tópicos avaliados, os cenários considerados e os critérios de avaliação aplicados a cada tópico.
+Contém a definição do benchmark desenvolvido para este projeto, incluindo os tópicos avaliados, os cenários considerados e os respetivos critérios de avaliação.
 
-### prompts
+### Prompts
 
-Contém os ficheiros JSON com os prompts utilizados nos testes. Estes prompts foram organizados de acordo com os tópicos, cenários e variantes de prompt engineering consideradas no trabalho.
+Contém os ficheiros JSON com todos os prompts utilizados durante os testes, organizados por tópico, cenário e variante de prompt engineering.
 
 ### README.md
 
@@ -30,7 +31,7 @@ Ficheiro de descrição geral do repositório.
 
 ## Modelos Avaliados
 
-Foram avaliados modelos comerciais e modelos open-source.
+Ao longo do projeto foram avaliados modelos comerciais e modelos open-source.
 
 Modelos comerciais:
 - ChatGPT
@@ -42,16 +43,17 @@ Modelos open-source:
 - Qwen3
 - Mistral
 - Llama 3.1
-- GPT-OSS
+- GPT-oss
 
-O modelo GPT-OSS foi inicialmente considerado, mas não foi incluído na análise quantitativa final devido a problemas na geração de respostas.
+O modelo GPT-oss foi inicialmente incluído na avaliação. No entanto, não foi considerado na análise quantitativa final devido à geração de respostas contendo caracteres inválidos, o que impossibilitou uma avaliação consistente.
 
 ## Objetivo
 
-O objetivo deste repositório é disponibilizar os materiais utilizados na avaliação da fiabilidade de LLMs em tarefas relacionadas com administração de sistemas, cibersegurança e criptografia.
+O objetivo deste repositório é disponibilizar todos os materiais utilizados durante o desenvolvimento do projeto, permitindo a reprodução dos testes realizados e a consulta dos resultados obtidos na avaliação da fiabilidade de LLMs em tarefas relacionadas com administração de sistemas, cibersegurança e criptografia.
 
 ## Autora
 
 Maria Inês Rosa Gomes  
 Licenciatura em Engenharia Informática  
 Universidade da Beira Interior
+
