@@ -5,7 +5,7 @@ title: PROMPTS TÓPICO 5
 
 # PROMPTS TÓPICO 5
 
-## Tópico 5 - Cifra de Ficheiros com Criptografia Simétrica e Assimétrica
+## Tópico 5 - Cifra de Ficheiros
 
 ### Cifra Simétrica
 *prompt 1:*
