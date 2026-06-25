@@ -107,7 +107,7 @@ Os pesos entre classes variam por tópico conforme a natureza dos erros:
 | systemd     | 0.5     | 0.5     | Idem                                                                     |
 | Credenciais | 0.6     | 0.4     | Exposição no código é o erro primário                                    |
 | Firewall    | 0.5     | 0.5     | Política default errada e regras não persistidas têm impacto equivalente |
-| Cifras      | 0.6     | 0.4     |      -                                                                    |
+| Cifra      | 0.6     | 0.4     |      -                                                                    |
 
 ### Score global
 
@@ -116,7 +116,7 @@ Score_Global = (Score_Bash        × 0.20) +
                (Score_systemd     × 0.20) +
                (Score_Credenciais × 0.20) +
                (Score_Firewall    × 0.15) + 
-               (Score_Cifras      × 0.25) 
+               (Score_Cifra      × 0.25) 
 ```
 
 # Tópico 1 — Scripts Bash
