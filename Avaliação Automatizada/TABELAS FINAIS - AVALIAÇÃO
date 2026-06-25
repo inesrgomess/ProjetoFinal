@@ -1,1 +1,246 @@
 
+---
+title: MODELO QWEN 3
+
+---
+
+# MODELO QWEN 3 
+
+### Qwen a temperatura 0.25
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      78.13       |        90.00        | 82.88  |
+|   2    |      63.00       |        66.00        | 64.50  |
+|   3    |      57.50       |        62.00        | 59.30  |
+|   4    |      77.50       |        94.00        | 85.75  |
+|   5    |      31.67       |        65.67        | 45.27  |
+
+
+Score_Realizacao = ((100x3) + (65x2) + (65x3)) / (3+2+3) = 78.13
+Score_Administracao = ((80x3) + (100x3) / (3+3) = 90.00
+Global = (78.125 x 0.6) + (90 x 0.4) = 82.88
+
+Score_Realizacao = ((75x3) + (45x2)) / (3+2) = 63
+Score_Administracao = ((70x3) + (60x2)) / (3+2) = 66
+Global = (63 x 0.5) + (66 x 0.5) = 64.5
+
+Score_Realizacao = ((30x3) + (85x3)) / (3+3) = 57.5
+Score_Administracao = ((70x3) + (50x2)) / (3+2) = 62
+Global = (57.5 x 0.6) + (62 x 0.4) = 59.3
+
+Score_Realizacao = ((55x3) + (100x3)) / (3+3) = 77.5
+Score_Administracao = ((100x3) + (85x2)) / (3+2) = 94
+Global = (77.5 x 0.5) + (94 x 0.5) = 85.75
+
+Score_Realizacao = ((45x3) + (25x3) + (25x3)) / (3+3+3) = 31.67
+Score_Administracao = ((65x3) + (66.67x2)) / (3+2) = 65.67
+Global = (31.67 x 0.6) + (65.67 x 0.4) = 45.27
+
+
+### Qwen a temperatura 0.75
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      78.13       |        87.50        | 81.88  |
+|   2    |      63.00       |        67.00        | 65.00  |
+|   3    |      50.00       |        72.00        | 58.80  |
+|   4    |      77.50       |        85.00        | 81.25  |
+|   5    |      38.06       |        64.33        | 48.57  |
+
+
+Score_Realizacao = ((100x3) + (65x2) + (65x3)) / (3+2+3) = 78.13
+Score_Administracao = ((75x3) + (100x3) / (3+3) = 87.5
+Global = (78.13 x 0.6) + (87.5 x 0.4) = 81.88
+
+Score_Realizacao = ((65x3) + (60x2)) / (3+2) = 63
+Score_Administracao = ((75x3) + (55x2)) / (3+2) = 67
+Global = (63 x 0.5) + (67 x 0.5) = 65
+
+Score_Realizacao = ((30x3) + (70x3)) / (3+3) = 50
+Score_Administracao = ((80x3) + (60x2)) / (3+2) = 72
+Global = (50 x 0.6) + (72 x 0.4) = 58.8
+
+Score_Realizacao = ((55x3) + (100x3)) / (3+3) = 77.5
+Score_Administracao = ((95x3) + (70x2)) / (3+2) = 85
+Global = (77.5 x 0.5) + (85 x 0.5) = 81.25
+
+Score_Realizacao = ((52.50x3) + (31.67x3) + (30.00x3)) / (3+3+3) = 38.06
+Score_Administracao = ((65x3) + (63.33x2)) / (3+2) = 64.33
+Global = (38.06 x 0.6) + (64.33 x 0.4) = 48.57
+
+
+## CONCLUSÃO
+
+| Tópico | 0.25  | 0.75  |
+|:------:|:-----:|:-----:|
+|   1    | 82.88 | 81.88 |
+|   2    | 64.50 | 65.00 |
+|   3    | 59.30 | 58.80 |
+|   4    | 85.75 | 81.25 |
+|   5    | 45.27 | 48.57 |
+
+
+
+# MODELO MISTRAL
+
+### Mistral a temperatura 0.25
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      63.75       |        95.00        | 76.25  |
+|   2    |      28.00       |        79.00        | 53.50  |
+|   3    |      67.50       |        70.00        | 68.50  |
+|   4    |      77.50       |        77.00        | 77.25  |
+|   5    |      42.78       |        79.33        | 57.40  |
+
+
+Score_Realizacao = ((95x3) + (45x2) + (45x3)) / (3+2+3) = 63.75
+Score_Administracao = ((90x3) + (100x3) / (3+3) = 95.00
+Global = (63.75 x 0.6) + (95 x 0.4) = 76.25
+
+Score_Realizacao = ((30x3) + (25x2)) / (3+2) = 28
+Score_Administracao = ((85x3) + (70x2)) / (3+2) = 79
+Global = (28 x 0.5) + (79 x 0.5) = 53.5
+
+Score_Realizacao = ((40x3) + (95x3)) / (3+3) = 67.5
+Score_Administracao = ((60x3) + (85x2)) / (3+2) = 70
+Global = (67.5 x 0.6) + (70 x 0.4) = 68.5
+
+Score_Realizacao = ((75x3) + (80x3)) / (3+3) = 77.5
+Score_Administracao = ((75x3) + (80x2)) / (3+2) = 77
+Global = (77.5 x 0.5) + (77 x 0.5) = 77.25
+
+Score_Realizacao = ((50.00x3) + (38.33x3) + (40.00x3)) / (3+3+3) = 42.78
+Score_Administracao = ((80.00x3) + (78.33x2)) / (3+2) = 79.33
+Global = (42.78 x 0.6) + (79.33 x 0.4) = 57.40
+
+
+### Mistral a temperatura 0.75
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      58.13       |        95.00        | 72.88  |
+|   2    |      40.00       |        85.00        | 62.50  |
+|   3    |      67.50       |        73.00        | 69.70  |
+|   4    |      77.50       |        76.00        | 76.75  |
+|   5    |      46.39       |        75.33        | 57.97  |
+
+
+Score_Realizacao = ((90x3) + (45x2) + (35x3)) / (3+2+3) = 58.13
+Score_Administracao = ((90x3) + (100x3) / (3+3) = 95.00
+Global = (58.13 x 0.6) + (95 x 0.4) = 72.88
+
+Score_Realizacao = ((50x3) + (25x2)) / (3+2) = 40
+Score_Administracao = ((95x3) + (70x2)) / (3+2) = 85
+Global = (40 x 0.5) + (85 x 0.5) = 62.5
+
+Score_Realizacao = ((45x3) + (90x3)) / (3+3) = 67.5
+Score_Administracao = ((65x3) + (85x2)) / (3+2) = 73
+Global = (67.5 x 0.6) + (73 x 0.4) = 69.7
+
+Score_Realizacao = ((70x3) + (85x3)) / (3+3) = 77.5
+Score_Administracao = ((80x3) + (70x2)) / (3+2) = 76
+Global = (77.5 x 0.5) + (76 x 0.5) = 76.75
+
+Score_Realizacao = ((37.50x3) + (46.67x3) + (55.00x3)) / (3+3+3) = 46.39
+Score_Administracao = ((73.33x3) + (78.33x2)) / (3+2) = 75.33
+Global = (46.39 x 0.6) + (75.33 x 0.4) = 57.97
+
+
+### CONCLUSÃO
+
+| Tópico | 0.25  | 0.75  |
+|:------:|:-----:|:-----:|
+|   1    | 76.25 | 72.88 |
+|   2    | 53.50 | 62.50 |
+|   3    | 68.50 | 69.70 |
+|   4    | 77.25 | 76.75 |
+|   5    | 57.40 | 57.97 |
+
+
+
+# MODELO LLAMA
+
+### Llama a temperatura 0.25
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      60.63       |        97.50        | 75.38  |
+|   2    |      64.00       |        86.00        | 75.00  |
+|   3    |      62.50       |        70.00        | 65.50  |
+|   4    |      85.00       |        75.00        | 80.00  |
+|   5    |      55.72       |        66.67        | 60.10  |
+
+
+Score_Realizacao = ((95x3) + (25x2) + (50x3)) / (3+2+3) = 60.63
+Score_Administracao = ((95x3) + (100x3) / (3+3) = 97.50
+Global = (60.63 x 0.6) + (97.5 x 0.4) = 75.38
+
+Score_Realizacao = ((60x3) + (70x2)) / (3+2) = 64
+Score_Administracao = ((100x3) + (65x2)) / (3+2) = 86
+Global = (64 x 0.5) + (86 x 0.5) = 75
+
+Score_Realizacao = ((30x3) + (95x3)) / (3+3) = 62.5
+Score_Administracao = ((60x3) + (85x2)) / (3+2) = 70
+Global = (62.5 x 0.6) + (70 x 0.4) = 65.5
+
+Score_Realizacao = ((80x3) + (90x3)) / (3+3) = 85
+Score_Administracao = ((85x3) + (60x2)) / (3+2) = 75
+Global = (85 x 0.5) + (75 x 0.5) = 80
+
+Score_Realizacao = ((40.00x3) + (61.67x3) + (62.50x3)) / (3+3+3) = 55.72
+Score_Administracao = ((56.67x3) + (81.67x2)) / (3+2) = 66.67
+Global = (55.72 x 0.6) + (66.67 x 0.4) = 60.10
+
+### Llama a temperatura 0.75
+
+| Tópico | Score_Realizacao | Score_Administracao | Global |
+|:------:|:----------------:|:-------------------:|:------:|
+|   1    |      56.25       |        85.00        | 67.75  |
+|   2    |      60.00       |        84.00        | 72.00  |
+|   3    |      70.00       |        59.00        | 65.60  |
+|   4    |      62.50       |        78.00        | 70.25  |
+|   5    |      49.44       |        74.33        | 59.40  |
+
+
+Score_Realizacao = ((100x3) + (30x2) + (30x3)) / (3+2+3) = 56.25
+Score_Administracao = ((85x3) + (85x3) / (3+3) = 85
+Global = (56.25 x 0.6) + (85 x 0.4) = 67.75
+
+Score_Realizacao = ((50x3) + (75x2)) / (3+2) = 60
+Score_Administracao = ((100x3) + (60x2)) / (3+2) = 84
+Global = (60 x 0.5) + (84 x 0.5) = 72
+
+Score_Realizacao = ((40x3) + (100x3)) / (3+3) = 70
+Score_Administracao = ((45x3) + (80x2)) / (3+2) = 59
+Global = (70 x 0.6) + (59 x 0.4) = 65.6
+
+Score_Realizacao = ((60x3) + (65x3)) / (3+3) = 62.5
+Score_Administracao = ((80x3) + (75x2)) / (3+2) = 78
+Global = (62.5 x 0.5) + (78 x 0.5) = 70.25
+
+Score_Realizacao = ((27.50x3) + (48.33x3) + (72.50x3)) / (3+3+3) = 49.44
+Score_Administracao = ((65.00x3) + (88.33x2)) / (3+2) = 74.33
+Global = (49.44 x 0.6) + (74.33 x 0.4) = 59.40
+
+### CONCLUSÃO
+
+| Tópico | 0.25  | 0.75  |
+|:------:|:-----:|:-----:|
+|   1    | 75.38 | 67.75 |
+|   2    | 75.00 | 72.00 |
+|   3    | 65.50 | 65.60 |
+|   4    | 80.00 | 70.25 |
+|   5    | 60.10 | 59.40 |
+
+
+# CONCLUSÃO GLOBAL
+
+| Modelo  | Score_Global - 0.25 | Score_Global - 0.75 |
+|:-------:|:-------------------:|:-------------------:|
+|  Qwen3  |        65.52        |        65.47        |
+| Mistral |        65.59        |        67.02        |
+|  Llama  |        70.20        |        66.46        |
+
+
