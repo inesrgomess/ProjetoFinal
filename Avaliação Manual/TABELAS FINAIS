@@ -1,8 +1,3 @@
----
-title: TABELAS FINAIS
-
----
-
 # TABELAS FINAIS
 
 ## Tópico 1 - Resultados ER1, ER2, ER3, PA1, PA2
@@ -17,7 +12,7 @@ title: TABELAS FINAIS
 | Prompt 4 |     0     |     1     |    0    |    0    |
 | Total    | 1 x 3 = 3 | 3 x 3 = 9 |    0    |    0    |
 
-
+0 certo 1 erro
 
 
 ### ER2 - Ausência de set -euo pipefail 
@@ -255,7 +250,7 @@ Penalidade_ER = 2
 | Prompt 3 |   0    |   0    |    0    |    0    |
 | Prompt 4 |   0    |   0    |    0    |    0    |
 
-## Tópico 5 - Cifra de Ficheiros
+## Tópico 5 
 
 ### ER1
 
@@ -296,3 +291,36 @@ Penalidade_ER = 2
 | Cifra Simétrica |   0    |   0    |    0    |    0    |
 | Cifra Hibrida   |   0    |   0    |    2    |    0    |
 | Decifra Hibrida |   1    |   3    |    3    |    1    |
+
+
+# Média Prompts
+
+
+
+| prompt | Gemini | Claude | Copilot | ChatGPT |
+|:------:|:------:|:------:|:-------:|:-------:|
+|   1    |   35   |   50   |   60    |   45    |
+|   2    |   70   |   75   |   70    |   75    |
+|   3    |   90   |   75   |   80    |   80    |
+|   4    |   60   |   70   |   75    |   75    |
+
+
+7/20 = 35
+14/20 = 70
+18/20 = 90
+12/20 = 60
+
+10/20 = 50
+15/20 = 75
+15/20 = 75
+14/20 = 70
+
+12/20 = 60
+14/20 = 70
+16/20 = 80
+15/20 = 75
+
+9/20 = 45
+15/20 = 75
+16/20 = 80
+15/20 = 75
